@@ -43,7 +43,7 @@ public interface TypeService extends IService<Type> {
      * @param typeName  类型的名称,也可以是一部分关键字。
      * @return  返回查询到的帖子类型
      */
-    List<Type> findByTypeName(String typeName);
+    int findByTypeName(String typeName);
 
     /***
      * 分页查询帖子类型

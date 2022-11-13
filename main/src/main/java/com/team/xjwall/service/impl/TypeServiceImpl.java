@@ -56,10 +56,10 @@ public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type> implements Ty
     }
 
     @Override
-    public List<Type> findByTypeName(String typeName) {
+    public int findByTypeName(String typeName) {
         QueryWrapper<Type> wrapper = new QueryWrapper<>();
-        wrapper.like("typeName",typeName);
-        return baseMapper.selectList(wrapper);
+        wrapper.eq("type_name",typeName);
+        return baseMapper.selectOne(wrapper).getTypeId();
     }
 
     @Override
