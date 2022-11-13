@@ -13,4 +13,32 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
 
+    /**
+     * 用户登录
+     * @param user 登录的用户
+     * @param password 用户密码
+     */
+
+    User loginUser(User user, String password);
+
+    /**
+     * 删除用户
+     * @param userName  用户账号
+     * @return  删除成功与否
+     */
+    int delUser(String userName);
+
+
+    /**
+     * 通过用户账号查找用户id
+     * @param userName 用户账号
+     */
+    int findUserIdByUserName(String userName);
+
+    /**
+     * 通过用户账号查找用户
+     * @param userName 用户账号
+     */
+    User findByUserName(String userName);
+
 }
