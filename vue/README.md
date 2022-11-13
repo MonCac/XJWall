@@ -1,5 +1,4 @@
-# logistics-ui
-
+# vue
 ## 第一步.依赖安装
 ```
 npm install
