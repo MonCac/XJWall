@@ -26,7 +26,7 @@ public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, Sensitive
     @Override
     public int addSensitive(String wordName, int wordId) {
         QueryWrapper<Sensitive> wrapper = new QueryWrapper<>();
-        wrapper.eq("wordId",wordId);
+        wrapper.eq("word_id",wordId);
         Sensitive sensitive = baseMapper.selectOne(wrapper);
         //id是非必须的，那如果之前已经存在了的id，不进行覆盖。
         if (sensitive!=null){
@@ -53,6 +53,7 @@ public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, Sensitive
         return baseMapper.updateById(sensitive);
     }
 
+
     @Override
     public List<Sensitive> findByWordName(String wordName) {
         QueryWrapper<Sensitive> wrapper = new QueryWrapper<>();
@@ -60,14 +61,15 @@ public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, Sensitive
         return baseMapper.selectList(wrapper);
     }
 
+
     @Override
     public RestResult findSensitivePage(int current, int limit, Sensitive sensitive) {
         Page<Sensitive> page = new Page<>(current,limit);
         QueryWrapper<Sensitive> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(sensitive.getWordId())){
-            wrapper.like("wordId",sensitive.getWordId());
+            wrapper.like("word_id",sensitive.getWordId());
         }else if (!StringUtils.isEmpty(sensitive.getWord())){
-            wrapper.like("wordName",sensitive.getWord());
+            wrapper.like("word",sensitive.getWord());
         }
         baseMapper.selectPage(page,wrapper);
         List<Sensitive> list = page.getRecords();

@@ -28,7 +28,7 @@ public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type> implements Ty
     @Override
     public int addType(int typeId, String typeName) {
         QueryWrapper<Type> wrapper = new QueryWrapper<>();
-        wrapper.eq("typeId",typeId);
+        wrapper.eq("type_id",typeId);
         Type type = baseMapper.selectOne(wrapper);
         //id是非必须的，那如果之前已经存在了的id，不进行覆盖。
         if (type!=null){
@@ -43,7 +43,7 @@ public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type> implements Ty
     public int delType(String typeName) {
         QueryWrapper<Type> wrapper = new QueryWrapper<>();
         //选出指定类型名称的帖子类型
-        wrapper.eq("typeName",typeName);
+        wrapper.eq("type_name",typeName);
         return baseMapper.delete(wrapper);
     }
 
@@ -67,9 +67,9 @@ public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type> implements Ty
         Page<Type> page = new Page<>(current,limit);
         QueryWrapper<Type> typeQueryWrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(type.getTypeId())){
-            typeQueryWrapper.like("typeId",type.getTypeId());
+            typeQueryWrapper.like("type_id",type.getTypeId());
         }else if (!StringUtils.isEmpty(type.getTypeName())){
-            typeQueryWrapper.like("typeName",type.getTypeName());
+            typeQueryWrapper.like("type_name",type.getTypeName());
         }
         baseMapper.selectPage(page,typeQueryWrapper);
         List<Type> list = page.getRecords();
