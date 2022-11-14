@@ -47,6 +47,13 @@ public interface TypeService extends IService<Type> {
      */
     int findByTypeName(String typeName);
 
+    /**
+     * 通过类型名称查找到对应的类型元组
+     * @param typeName 类型的名称
+     * @return 返回Type实体对象
+     */
+    Type findOneByTypeName(String typeName);
+
     /***
      * 分页查询帖子类型
      * @param current 当前页

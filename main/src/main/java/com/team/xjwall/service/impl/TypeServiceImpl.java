@@ -63,19 +63,36 @@ public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type> implements Ty
     }
 
     @Override
+    public Type findOneByTypeName(String typeName) {
+        QueryWrapper<Type> wrapper = new QueryWrapper<>();
+        wrapper.eq("type_name",typeName);
+        return baseMapper.selectOne(wrapper);
+    }
+
+
+    @Override
     public RestResult findTypePage(int current, int limit, Type type) {
+        //创建分页对象
         Page<Type> page = new Page<>(current,limit);
         QueryWrapper<Type> typeQueryWrapper = new QueryWrapper<>();
+        //条件构造器-构造条件
         if (!StringUtils.isEmpty(type.getTypeId())){
             typeQueryWrapper.like("type_id",type.getTypeId());
         }else if (!StringUtils.isEmpty(type.getTypeName())){
             typeQueryWrapper.like("type_name",type.getTypeName());
         }
+        //调用分页查询的方法
         baseMapper.selectPage(page,typeQueryWrapper);
+        //获取表中的显示的数据
         List<Type> list = page.getRecords();
+        //获取表中总记录数
         long total = page.getTotal();
+        //获取分页总数
         long pages = page.getPages();
+        //将分页信息封装在Map集合中
         return RestResult.ok().data("rows",list).data("total",total).
                 data("pages",pages).data("current", current).data("limit", limit);
     }
+
+
 }
