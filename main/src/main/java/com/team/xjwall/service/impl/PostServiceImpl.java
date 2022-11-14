@@ -63,29 +63,53 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             default:
                 break;
         }
-        if(type.equals("post_id")){wrapper.eq("post_id",Integer.parseInt(value));}
-        else if(type.equals("owner_id")){wrapper.eq("owner_id",Integer.parseInt(value));}
-        else if(type.equals("father_post")){wrapper.eq("father_post",Integer.parseInt(value));}
-        else if(type.equals("type_id")){wrapper.eq("type_id",Integer.parseInt(value));}
-        else{wrapper.eq(type,value);}
+        if("post_id".equals(type)){
+            wrapper.eq("post_id",Integer.parseInt(value));
+        }
+        else if("owner_id".equals(type)){
+            wrapper.eq("owner_id",Integer.parseInt(value));
+        }
+        else if("father_post".equals(type)){
+            wrapper.eq("father_post",Integer.parseInt(value));
+        }
+        else if("type_id".equals(type)){
+            wrapper.eq("type_id",Integer.parseInt(value));
+        }
+        else{
+            wrapper.eq(type,value);
+        }
         return baseMapper.selectList(wrapper);
     }
 
     @Override
     public Map<Integer, List<Post>> findCommentByPostid(int postid) {
-        Map<Integer, List<Post>> map=new HashMap<Integer, List<Post>>();
-        CommentLoop(postid,0,map);
+        Map<Integer, List<Post>> map= new HashMap<>();
+        commentLoop(postid,0,map);
         return map;
     }
-    //循环获取评论的评论的......
-    public void CommentLoop(int postid,int index,Map<Integer, List<Post>> map){
+
+
+    /**
+     * 循环获取评论的评论的......
+     * @param postid 帖子的id
+     * @param index （排序的方式？）
+     * @param map 键为postid；值为帖子列表
+     */
+    public void commentLoop(int postid, int index, Map<Integer, List<Post>> map){
         List<Post> temp;
-        if(index==0)temp=findByxxx("father_post",""+postid,5);
-        else temp=findByxxx("father_post",""+postid,2);
-        if(!temp.isEmpty())return;
-        else map.put(postid,temp);
-        for(Post post:temp)
-            CommentLoop(post.getPostId(),1,map);
+        if(index==0) {
+            temp=findByxxx("father_post",""+postid,5);
+        } else {
+            temp=findByxxx("father_post",""+postid,2);
+        }
+        if(!temp.isEmpty()) {
+            return;
+        } else {
+            map.put(postid,temp);
+        }
+        for(Post post:temp) {
+            commentLoop(post.getPostId(),1,map);
+        }
 
     }
 

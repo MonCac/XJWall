@@ -51,8 +51,9 @@ public class PostController {
         @ApiParam(name = "sortid", value = "排序id", required = true)
         @PathVariable int sortid) {
         List<Post> postList=ps.findByxxx("post_id",""+postid,sortid);
-        if (!postList.isEmpty())
+        if (!postList.isEmpty()) {
             return RestResult.ok().data("post",postList.get(0));
+        }
         return RestResult.error();
     }
 
@@ -64,8 +65,9 @@ public class PostController {
                                   @PathVariable int sortid) {
         int typeid=ts.findByTypeName(typename);
         List<Post> postList=ps.findByxxx("type_id",""+typeid,sortid);
-        if (!postList.isEmpty())
+        if (!postList.isEmpty()) {
             return RestResult.ok().data("post",postList);
+        }
         return RestResult.error();
     }
 
@@ -77,8 +79,9 @@ public class PostController {
                                   @PathVariable int sortid) {
         int ownerid=us.findUserIdByUserName(username);
         List<Post> postList=ps.findByxxx("owner_id",""+ownerid,sortid);
-        if (!postList.isEmpty())
+        if (!postList.isEmpty()) {
             return RestResult.ok().data("post",postList);
+        }
         return RestResult.error();
     }
 
@@ -89,8 +92,9 @@ public class PostController {
                                   @ApiParam(name = "sortid", value = "排序id", required = true)
                                   @PathVariable int sortid) {
         List<Post> postList=ps.findByxxx("owner_id",""+userid,sortid);
-        if (!postList.isEmpty())
+        if (!postList.isEmpty()) {
             return RestResult.ok().data("post",postList);
+        }
         return RestResult.error();
     }
 
@@ -101,8 +105,9 @@ public class PostController {
                                    @ApiParam(name = "sortid", value = "排序id", required = true)
                                    @PathVariable int sortid) {
         List<Post> postList=ps.findByxxx("title",title,sortid);
-        if (!postList.isEmpty())
+        if (!postList.isEmpty()) {
             return RestResult.ok().data("post",postList);
+        }
         return RestResult.error();
     }
 
@@ -111,8 +116,9 @@ public class PostController {
     public RestResult getCommentByPostid(@ApiParam(name = "postid", value = "帖子id", required = true)
                                  @PathVariable int postid) {
         Map<Integer,List<Post>> map=ps.findCommentByPostid(postid);
-        if(!map.isEmpty())
+        if(!map.isEmpty()) {
             return RestResult.ok().data("comment",map);
+        }
         return RestResult.error();
     }
 }

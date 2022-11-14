@@ -29,7 +29,8 @@ public class UserController {
     @PostMapping("/add")
     public RestResult add(@RequestBody User user) {
         User flag = service.findByUserName(user.getUserName());
-        if (flag == null) { // 数据库不存在该用户名
+        if (flag == null) {
+            // 数据库不存在该用户名
             service.save(user);
             return RestResult.ok();
         } else {
@@ -44,8 +45,9 @@ public class UserController {
             thisUserName=user.getUserName();
             return RestResult.ok().data("登录成功", login);
         }
-        else
+        else {
             return RestResult.error();
+        }
     }
     @ApiOperation(value = "用户的删除")
     @DeleteMapping("{userId}")
@@ -53,20 +55,22 @@ public class UserController {
             @ApiParam(name = "userId", value = "用户ID", required = true)
             @PathVariable int userId) {
         boolean flag = service.removeById(userId);
-        if (flag)
+        if (flag) {
             return RestResult.ok();
-        else
+        } else {
             return RestResult.error();
+        }
     }
 
     @ApiOperation(value = "用户信息的修改")
     @PostMapping("/update")
     public RestResult update(@RequestBody User user) {
         boolean flag = service.updateById(user);
-        if (flag)
+        if (flag) {
             return RestResult.ok();
-        else
+        } else {
             return RestResult.error();
+        }
     }
 }
 

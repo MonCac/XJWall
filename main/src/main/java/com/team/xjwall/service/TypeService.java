@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface TypeService extends IService<Type> {
     /**
-     * 对帖子类型的添加，
+     * 对帖子类型的添加——操作者：管理员
      * @param typeName 类型的名称
      * @param typeId   （非必须）类型的id--->那调用这个方法时又必须提供typeId，怎么解决？
      * @return 增加成功与否
@@ -24,14 +24,14 @@ public interface TypeService extends IService<Type> {
     int addType(int typeId,String typeName);
 
     /**
-     * 对帖子类型的删除
+     * 对帖子类型的删除——操作者：管理员
      * @param typeName  类型的名称
      * @return  删除成功与否
      */
     int delType(String typeName);
 
     /**
-     * 对帖子类型的修改
+     * 对帖子类型的修改——操作者：管理员
      * @param typeName  类型的名称
      * @param typeId    类型的id
      * @return  修改后的帖子类型
@@ -39,9 +39,11 @@ public interface TypeService extends IService<Type> {
     int updateType(int typeId,String typeName);
 
     /**
-     * 通过类型的名字查找帖子类型
+     * 通过类型的名字查找帖子类型——操作者：用户、管理员
+     * 用户：发布帖子时需指定类型、通过帖子类型查找帖子id
+     * 管理员：通过帖子类型查找帖子id
      * @param typeName  类型的名称,也可以是一部分关键字。
-     * @return  返回查询到的帖子类型
+     * @return  返回查询到的类型id
      */
     int findByTypeName(String typeName);
 
