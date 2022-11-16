@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -24,7 +25,7 @@ import java.util.List;
 public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, Sensitive> implements SensitiveService {
 
     @Override
-    public int addSensitive(String wordName, int wordId) {
+    public int addSensitive(String word, int wordId) {
         QueryWrapper<Sensitive> wrapper = new QueryWrapper<>();
         wrapper.eq("word_id",wordId);
         Sensitive sensitive = baseMapper.selectOne(wrapper);
@@ -32,33 +33,33 @@ public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, Sensitive
         if (sensitive!=null){
             return 0;
         }else {
-            Sensitive newSensitive = new Sensitive(wordId,wordName);
+            Sensitive newSensitive = new Sensitive(wordId,word);
             return baseMapper.insert(newSensitive);
         }
     }
 
     @Override
-    public int delSensitive(String wordName) {
+    public int delSensitive(String word) {
         QueryWrapper<Sensitive> wrapper = new QueryWrapper<>();
         //选出指定类型名称的帖子类型
-        wrapper.eq("word",wordName);
+        wrapper.eq("word",word);
         return baseMapper.delete(wrapper);
     }
 
     @Override
-    public int updateSensitive(String wordName, int wordId) {
+    public int updateSensitive(String word, int wordId) {
         Sensitive sensitive = new Sensitive();
         sensitive.setWordId(wordId);
-        sensitive.setWord(wordName);
+        sensitive.setWord(word);
         return baseMapper.updateById(sensitive);
     }
 
 
     @Override
-    public List<Sensitive> findByWordName(String wordName) {
+    public Sensitive findOneByWord(String word) {
         QueryWrapper<Sensitive> wrapper = new QueryWrapper<>();
-        wrapper.like("word",wordName);
-        return baseMapper.selectList(wrapper);
+        wrapper.eq("word",word);
+        return baseMapper.selectOne(wrapper);
     }
 
 
@@ -77,5 +78,15 @@ public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, Sensitive
         long pages = page.getPages();
         return RestResult.ok().data("rows",list).data("total",total).
                 data("pages",pages).data("current", current).data("limit", limit);
+    }
+
+    @Override
+    public int findSensitiveProportion(int postId) {
+        return 0;
+    }
+
+    @Override
+    public Map<Integer, Integer> findAllProportion() {
+        return null;
     }
 }
