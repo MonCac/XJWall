@@ -3,8 +3,10 @@ package com.team.xjwall.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.team.xjwall.config.result.RestResult;
+import com.team.xjwall.model.Post;
 import com.team.xjwall.model.User;
 import com.team.xjwall.mapper.UserMapper;
+import com.team.xjwall.service.PostService;
 import com.team.xjwall.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -67,5 +69,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         long pages = page.getPages();
         return RestResult.ok().data("rows",list).data("total",total).
                 data("pages",pages).data("current", current).data("limit", limit);
+    }
+
+    @Override
+    public List<Post> showPosts(User user){
+        PostService ps=new PostServiceImpl();
+        List<Post> postList=ps.findByxxx("post_id",""+user.getUserId(),1);
+        if (!postList.isEmpty()) {
+            return postList;
+    }
+        return null;
     }
 }

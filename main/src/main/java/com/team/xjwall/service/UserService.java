@@ -1,9 +1,13 @@
 package com.team.xjwall.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.team.xjwall.config.result.RestResult;
+import com.team.xjwall.model.Post;
 import com.team.xjwall.model.Sensitive;
 import com.team.xjwall.model.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -53,4 +57,7 @@ public interface UserService extends IService<User> {
      * @param user 作为查找条件
      */
     RestResult findSensitivePage(int current, int limit, User user);
+
+
+    List<Post> showPosts(User user);
 }
