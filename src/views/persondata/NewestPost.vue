@@ -9,6 +9,10 @@
                     {{item.name}}
                 </div>
             </div>
+            <!--            帖子简介-->
+            <div style="flex: 1;font-size: 14px;color: #555666;padding: 5px 25px">
+                {{item.summary}}
+            </div>
 <!--            时间-->
             <div style="flex: 2;padding: 5px 20px;font-size: 14px;color: #555666">
                 <span>发布帖子于</span> {{item.time}}
@@ -32,6 +36,7 @@
 
 <script>
     import axios, {Axios as request} from "axios";
+
     export default {
         name: "NewArticle",
         data(){
