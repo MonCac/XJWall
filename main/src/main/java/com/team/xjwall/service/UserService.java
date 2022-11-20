@@ -1,5 +1,7 @@
 package com.team.xjwall.service;
 
+import com.team.xjwall.config.result.RestResult;
+import com.team.xjwall.model.Sensitive;
 import com.team.xjwall.model.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -44,4 +46,11 @@ public interface UserService extends IService<User> {
      */
     User findByUserName(String userName);
 
+    /**
+     * 对用户实现分页查询
+     * @param current 当前页
+     * @param limit 总页
+     * @param user 作为查找条件
+     */
+    RestResult findSensitivePage(int current, int limit, User user);
 }
