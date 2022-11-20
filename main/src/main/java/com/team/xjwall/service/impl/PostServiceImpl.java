@@ -1,8 +1,10 @@
 package com.team.xjwall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.team.xjwall.model.Post;
 import com.team.xjwall.mapper.PostMapper;
+import com.team.xjwall.model.UserPost;
 import com.team.xjwall.service.PostService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -88,6 +90,45 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         return map;
     }
 
+    @Override
+    public void updateLikes(int postid,boolean flag) {
+        QueryWrapper<Post> wrapper=new QueryWrapper<>();
+        wrapper.eq("post_id",postid);
+        Post post=baseMapper.selectOne(wrapper);
+        int likes=post.getLikes();
+        if(flag)likes+=1;
+        else likes-=1;
+        UpdateWrapper<Post> wrapper1=new UpdateWrapper<>();
+        wrapper1.eq("post_id",postid).set("likes",likes);
+        baseMapper.update(null,wrapper1);
+
+    }
+
+    @Override
+    public void updateCollections(int postid, boolean flag) {
+        QueryWrapper<Post> wrapper=new QueryWrapper<>();
+        wrapper.eq("post_id",postid);
+        Post post=baseMapper.selectOne(wrapper);
+        int collections=post.getCollections();
+        if(flag)collections+=1;
+        else collections-=1;
+        UpdateWrapper<Post> wrapper1=new UpdateWrapper<>();
+        wrapper1.eq("post_id",postid).set("collections",collections);
+        baseMapper.update(null,wrapper1);
+    }
+
+    @Override
+    public void updateViews(int postid) {
+        QueryWrapper<Post> wrapper=new QueryWrapper<>();
+        wrapper.eq("post_id",postid);
+        Post post=baseMapper.selectOne(wrapper);
+        int views=post.getViews();
+        views+=1;
+        UpdateWrapper<Post> wrapper1=new UpdateWrapper<>();
+        wrapper1.eq("post_id",postid).set("views",views);
+        baseMapper.update(null,wrapper1);
+    }
+
 
     /**
      * 循环获取评论的评论的......
@@ -113,4 +154,14 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     }
 
+    //获取指定字段(点赞、收藏、浏览)的值
+    public int getValue(int postid,String s){
+        QueryWrapper<Post> wrapper=new QueryWrapper<>();
+        wrapper.eq("post_id",postid);
+        Post post=baseMapper.selectOne(wrapper);
+        if(s.equals("likes")) return post.getLikes();
+        if(s.equals("collections")) return post.getCollections();
+        if(s.equals("views")) return post.getViews();
+        return -1;
+    }
 }

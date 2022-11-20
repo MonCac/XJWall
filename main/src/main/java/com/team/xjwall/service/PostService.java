@@ -42,4 +42,10 @@ public interface PostService extends IService<Post> {
      * @return *
      */
     Map<Integer,List<Post>> findCommentByPostid(int postid);
+
+    void updateLikes(int postid,boolean flag);
+
+    void updateCollections(int postid,boolean flag);
+
+    void updateViews(int postid);
 }
