@@ -2,12 +2,16 @@ package com.team.xjwall.controller;
 
 
 import com.team.xjwall.config.result.RestResult;
+import com.team.xjwall.model.Post;
 import com.team.xjwall.model.Sensitive;
 import com.team.xjwall.service.SensitiveService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -89,6 +93,32 @@ public class SensitiveController {
             @PathVariable int limit,
             @RequestBody(required = false) Sensitive sensitive){
         return ss.findSensitivePage(current, limit, sensitive);
+    }
+
+    @ApiOperation(value = "帖子内容的敏感词汇占比")
+    @PostMapping("/Proportion/{content}")
+    public RestResult getProportion(
+            @ApiParam(name = "content", value = "帖子内容概述", required = true)
+            @PathVariable String content){
+        int sensitiveProportion = ss.findSensitiveProportion(content);
+        if (sensitiveProportion>=0){
+            return RestResult.ok().data("sensitiveProportion",sensitiveProportion);
+        }else {
+            return RestResult.error();
+        }
+    }
+
+    @ApiOperation(value = "所有帖子内容的敏感词汇占比")
+    @PostMapping("/Proportion/{posts}")
+    public RestResult getAllProportion(
+            @ApiParam(name = "posts", value = "所有帖子", required = true)
+            @PathVariable List<Post> posts){
+        Map<Integer, Integer> allProportion = ss.findAllProportion(posts);
+        if (allProportion!=null){
+            return RestResult.ok().data("map",allProportion);
+        }else {
+            return RestResult.error();
+        }
     }
 
 }

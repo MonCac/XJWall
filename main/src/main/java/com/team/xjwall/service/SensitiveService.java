@@ -1,9 +1,11 @@
 package com.team.xjwall.service;
 
 import com.team.xjwall.config.result.RestResult;
+import com.team.xjwall.model.Post;
 import com.team.xjwall.model.Sensitive;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,14 +58,15 @@ public interface SensitiveService extends IService<Sensitive> {
 
     /**
      * 返回帖子内容的敏感词汇占比——使用场景：发布一个帖子后、管理员对某一帖子的检查
-     * @param postId 帖子Id
+     * @param postContent 帖子的内容
      * @return 比例
      */
-    int findSensitiveProportion(int postId);
+    int findSensitiveProportion(String postContent);
 
     /**
      * 所有帖子内容的敏感词汇占比——使用场景：不常使用
+     * @param posts 所有的帖子
      * @return 键值对，键为帖子id，值为其敏感比例
      */
-    Map<Integer,Integer> findAllProportion();
+    Map<Integer,Integer> findAllProportion(List<Post> posts);
 }

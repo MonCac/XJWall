@@ -3,6 +3,7 @@ package com.team.xjwall.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.team.xjwall.config.result.RestResult;
+import com.team.xjwall.model.Post;
 import com.team.xjwall.model.Sensitive;
 import com.team.xjwall.mapper.SensitiveMapper;
 import com.team.xjwall.service.SensitiveService;
@@ -10,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -81,12 +83,40 @@ public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, Sensitive
     }
 
     @Override
-    public int findSensitiveProportion(int postId) {
-        return 0;
+    public int findSensitiveProportion(String postContent) {
+        //拿到所有的敏感词元组[Sensitive(word_id=?, word=?)]
+        List<Sensitive> sensitives = baseMapper.selectList(null);
+        //用来存放每个敏感词在内容中所占的字数
+        int[] counts = new int[sensitives.size()];
+        int sensitiveSum=0;
+        //帖子的初始长度
+        int originalLength;
+        int newLength;
+        //迭代敏感词
+        for (int i = 0; i < sensitives.size(); i++) {
+            originalLength=postContent.length();
+            //拿到敏感词
+            String word = sensitives.get(i).getWord();
+            //用String的replace方法将敏感词置为空
+            postContent = postContent.replace(word, "");
+            //replace替换前后的长度之差即为敏感词所占的次数
+            newLength=postContent.length();
+            counts[i]=originalLength-newLength;
+            sensitiveSum+=counts[i];
+        }
+        //返回的是一个百分比
+        return sensitiveSum*100/postContent.length();
     }
 
+
     @Override
-    public Map<Integer, Integer> findAllProportion() {
-        return null;
+    public Map<Integer, Integer> findAllProportion(List<Post> posts) {
+        //键是postId，值是敏感百分比
+        Map<Integer, Integer> map = new HashMap<>(posts.size());
+        for (Post post : posts) {
+            int sensitiveProportion = findSensitiveProportion(post.getContent());
+            map.put(post.getPostId(),sensitiveProportion);
+        }
+        return map;
     }
 }
