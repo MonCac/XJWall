@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 角色表 服务类
  * 由于在DBMS中，Role、Permission、Operation、RolePermissionRelation之间存在着关系
  * 得看DBMS中外键设置的是否是级联？—不用考虑，先做基础的不考虑其他条件的增删改查。
+ * 2022年11月23日17:13:54——》整个系统的角色权限分配工作尚未完成。
  * </p>
  *
  * @author XXX

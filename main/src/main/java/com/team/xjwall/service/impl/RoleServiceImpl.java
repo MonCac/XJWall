@@ -1,13 +1,16 @@
 package com.team.xjwall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.team.xjwall.config.result.RestResult;
 import com.team.xjwall.model.Role;
 import com.team.xjwall.mapper.RoleMapper;
 import com.team.xjwall.service.RoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * <p>
@@ -47,11 +50,25 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public Role findOneByName(String roleName) {
-        return null;
+        QueryWrapper<Role> wrapper = new QueryWrapper<>();
+        wrapper.eq("role_name",roleName);
+        return baseMapper.selectOne(wrapper);
     }
 
     @Override
     public RestResult findRolePage(int current, int limit, Role role) {
-        return null;
+        Page<Role> page = new Page<>(current, limit);
+        QueryWrapper<Role> wrapper = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(role.getRoleId())){
+            wrapper.like("role_id",role.getRoleId());
+        }else if (!StringUtils.isEmpty(role.getRoleName())){
+            wrapper.like("role_name",role.getRoleName());
+        }
+        baseMapper.selectPage(page,wrapper);
+        List<Role> list = page.getRecords();
+        long total = page.getTotal();
+        long pages = page.getPages();
+        return RestResult.ok().data("rows",list).data("total",total).
+                data("pages",pages).data("current", current).data("limit", limit);
     }
 }
