@@ -56,8 +56,9 @@ public interface UserService extends IService<User> {
      * @param limit 总页
      * @param user 作为查找条件
      */
-    RestResult findSensitivePage(int current, int limit, User user);
 
+
+    RestResult findUserPage(int current, int limit, User user);
 
     List<Post> showPosts(User user);
 }
