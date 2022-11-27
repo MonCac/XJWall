@@ -65,7 +65,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             default:
                 break;
         }
-        if("post_id".equals(type)){
+        if("keyword".equals(type)){
+            //简单的模糊搜索
+            wrapper.like("content","%"+value).or().like("content",value+"%").or().like("content","%"+value+"%").or().like("title","%"+value).or().like("title",value+"%").or().like("content","%"+value+"%");
+        }
+        else if("post_id".equals(type)){
             wrapper.eq("post_id",Integer.parseInt(value));
         }
         else if("owner_id".equals(type)){

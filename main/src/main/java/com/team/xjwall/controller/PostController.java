@@ -222,5 +222,16 @@ public class PostController {
         return RestResult.ok();
     }
 
+    @ApiOperation(value = "帖子内容模糊搜索")
+    @GetMapping("/search/{keyword}/{sortid}")
+    public RestResult getCollection(@ApiParam(name = "keyword", value = "搜索关键词", required = true)
+                                    @PathVariable String keyword,@ApiParam(name = "sortid", value = "排序id", required = true)
+                                    @PathVariable int sortid){
+        List<Post> postList = ps.findByxxx("keyword", keyword, sortid);
+        if (!postList.isEmpty()) {
+            return RestResult.ok().data("post", postList);
+        }
+        return RestResult.error();
+    }
 }
 
