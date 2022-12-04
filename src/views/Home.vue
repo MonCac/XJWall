@@ -192,7 +192,6 @@ overflow: hidden;color: #000; font-weight: normal"   @click="$router.push('/fron
         float: right;
         width: 20px;
         height: 20px;
-        background-image: url("../../assets/article.png");
         background-size: 100%;
     }
     .newArticle span{
@@ -210,7 +209,6 @@ overflow: hidden;color: #000; font-weight: normal"   @click="$router.push('/fron
     float: right;
     width: 20px;
     height: 20px;
-    background-image: url("../../assets/resource.png");
     background-size: 100%;
 }
 .newASource span{
@@ -248,7 +246,6 @@ overflow: hidden;color: #000; font-weight: normal"   @click="$router.push('/fron
     margin-top: 60px;
     width: 100%;
     height:45%;
-    background-image: url("../../assets/5a824a2970ad6e255e38affa97ceecf0.jpg");
     background-size: 100%;
 
 }
