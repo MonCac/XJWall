@@ -100,8 +100,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         wrapper.eq("post_id",postid);
         Post post=baseMapper.selectOne(wrapper);
         int likes=post.getLikes();
-        if(flag)likes+=1;
-        else likes-=1;
+        if(flag) {
+            likes+=1;
+        } else {
+            likes-=1;
+        }
         UpdateWrapper<Post> wrapper1=new UpdateWrapper<>();
         wrapper1.eq("post_id",postid).set("likes",likes);
         baseMapper.update(new Post(),wrapper1);
@@ -166,9 +169,15 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         QueryWrapper<Post> wrapper=new QueryWrapper<>();
         wrapper.eq("post_id",postid);
         Post post=baseMapper.selectOne(wrapper);
-        if(s.equals("likes")) return post.getLikes();
-        if(s.equals("collections")) return post.getCollections();
-        if(s.equals("views")) return post.getViews();
+        if(s.equals("likes")) {
+            return post.getLikes();
+        }
+        if(s.equals("collections")) {
+            return post.getCollections();
+        }
+        if(s.equals("views")) {
+            return post.getViews();
+        }
         return -1;
     }
 }
