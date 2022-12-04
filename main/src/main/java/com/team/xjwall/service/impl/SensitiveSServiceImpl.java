@@ -83,11 +83,12 @@ public class SensitiveSServiceImpl extends ServiceImpl<SensitiveSMapper, Sensiti
     }
 
     @Override
-    public int findSensitiveSProportion(String postContent) {
+    public int findSensitiveSProportion(String post) {
         //拿到所有的敏感词元组[Sensitive(word_id=?, word=?)]
         List<SensitiveS> sensitives = baseMapper.selectList(null);
         //用来存放每个敏感词在内容中所占的字数
         int[] counts = new int[sensitives.size()];
+        String postContent=post;
         int sensitiveSum=0;
         //帖子的初始长度
         int originalLength;
@@ -105,7 +106,7 @@ public class SensitiveSServiceImpl extends ServiceImpl<SensitiveSMapper, Sensiti
             sensitiveSum+=counts[i];
         }
         //返回的是一个百分比
-        return sensitiveSum*100/postContent.length();
+        return sensitiveSum*100/post.length();
     }
 
 

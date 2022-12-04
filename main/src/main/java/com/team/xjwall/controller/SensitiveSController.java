@@ -111,7 +111,7 @@ public class SensitiveSController {
     }
 
     @ApiOperation(value = "所有帖子内容的敏感词汇占比")
-    @PostMapping("/Proportion/{posts}")
+    @PostMapping("/Proportion/All/{posts}")
     public RestResult getAllProportion(
             @ApiParam(name = "posts", value = "所有帖子", required = true)
             @PathVariable List<Post> posts){
