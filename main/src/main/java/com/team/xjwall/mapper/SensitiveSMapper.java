@@ -1,7 +1,8 @@
 package com.team.xjwall.mapper;
 
-import com.team.xjwall.model.Sensitive;
+import com.team.xjwall.model.SensitiveS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.team.xjwall.model.SensitiveS;
 
 /**
  * <p>
@@ -11,6 +12,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author XXX
  * @since 2022-11-03
  */
-public interface SensitiveMapper extends BaseMapper<Sensitive> {
+public interface SensitiveSMapper extends BaseMapper<SensitiveS> {
 
 }
