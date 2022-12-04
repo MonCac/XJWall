@@ -46,7 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public int findUserIdByUserName(String userName) {
         QueryWrapper<User> wrapper =new QueryWrapper<>();
-        wrapper.eq("user_id", userName);
+        wrapper.eq("user_name", userName);
         return baseMapper.selectOne(wrapper).getUserId();
     }
 

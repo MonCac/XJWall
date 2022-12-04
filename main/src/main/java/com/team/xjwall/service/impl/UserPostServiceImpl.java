@@ -115,9 +115,9 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
     }
 
     @Override
-    public List<UserPost> findCollected() {
+    public List<UserPost> findCollected(int userid) {
         QueryWrapper<UserPost> wrapper=new QueryWrapper<>();
-        wrapper.eq("iscollected",1);
+        wrapper.eq("iscollected",1).eq("user_id",userid);
         List<UserPost> uplist=baseMapper.selectList(wrapper);
         return uplist;
     }

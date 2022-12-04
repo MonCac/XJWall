@@ -205,7 +205,7 @@ public class PostController {
     @GetMapping("/getCollection/{userid}")
     public RestResult getCollection(@ApiParam(name = "userid", value = "用户id", required = true)
                                         @PathVariable int userid){
-        List<UserPost> upList=ups.findCollected();
+        List<UserPost> upList=ups.findCollected(userid);
         List<Post> postList=new ArrayList<>();
         if (!upList.isEmpty()) {
             for(UserPost userPost:upList) {
