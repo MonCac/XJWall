@@ -24,7 +24,7 @@ public class RoleController {
     private RoleService rs;
     @ApiOperation(value = "角色的增加")
     @PostMapping("/add")
-    public RestResult add(@RequestBody Role role){
+    public RestResult add(@RequestBody Role role){//通过
         Role flag = rs.getById(role.getRoleId());
         if (flag==null){
             rs.save(role);
@@ -38,9 +38,9 @@ public class RoleController {
     @DeleteMapping("{roleName}")
     public RestResult delete(
             @ApiParam(name = "roleName",value = "角色名",required = true)
-            @PathVariable String roleName){
+            @PathVariable String roleName){//通过
         Role role = rs.findOneByName(roleName);
-        boolean flag = rs.removeById(role.getRoleName());
+        boolean flag = rs.removeById(role.getRoleId());
         if (flag){
             return RestResult.ok();
         }else {
@@ -54,7 +54,7 @@ public class RoleController {
             @ApiParam(name = "roleId",value = "角色ID",required = true)
             @PathVariable int roleId,
             @ApiParam(name = "roleName",value = "角色名",required = true)
-            @PathVariable String roleName) {
+            @PathVariable String roleName) {//通过
         boolean flag = rs.updateById(new Role(roleId, roleName));
         if (flag) {
             return RestResult.ok();
@@ -67,7 +67,7 @@ public class RoleController {
     @GetMapping("/getByRoleName/{roleName}")
     public RestResult getByWord(
             @ApiParam(name = "roleName",value = "角色名",required = true)
-            @PathVariable String roleName){
+            @PathVariable String roleName){//通过
         Role role = rs.findOneByName(roleName);
         if (role!=null){
             return RestResult.ok().data("role",role);
@@ -83,7 +83,7 @@ public class RoleController {
             @PathVariable int current,
             @ApiParam(name = "limit", value = "每页的记录数", required = true)
             @PathVariable int limit,
-            @RequestBody(required = false) Role role){
+            @RequestBody(required = false) Role role){//通过
         return rs.findRolePage(current, limit, role);
     }
 

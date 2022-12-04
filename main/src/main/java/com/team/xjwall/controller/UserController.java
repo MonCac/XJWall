@@ -104,16 +104,6 @@ public class UserController {
         return RestResult.ok().data("user",user);
     }
 
-    @ApiOperation("查看用户帖子")
-    @GetMapping("/findPosts/{username}")
-    public RestResult getPost(
-            @ApiParam(name = "username",value = "用户账号",required = true)
-            @PathVariable String username){
-        int userId = userservice.findUserIdByUserName(username);
-        List<Post> posts=userservice.showPosts(userId);
-        return RestResult.ok().data("posts",posts);
-    }
-
 }
 
 

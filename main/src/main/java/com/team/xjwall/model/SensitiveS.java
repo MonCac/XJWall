@@ -24,8 +24,8 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="Sensitive对象", description="敏感词表")
-public class Sensitive implements Serializable {
+@ApiModel(value="SensitiveS对象", description="敏感词表")
+public class SensitiveS implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

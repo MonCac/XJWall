@@ -3,7 +3,7 @@ package com.team.xjwall.service;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.team.xjwall.config.result.RestResult;
 import com.team.xjwall.model.Post;
-import com.team.xjwall.model.Sensitive;
+import com.team.xjwall.model.SensitiveS;
 import com.team.xjwall.model.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 

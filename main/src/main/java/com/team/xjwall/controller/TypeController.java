@@ -28,7 +28,7 @@ public class TypeController {
 
     @ApiOperation(value = "帖子类型的增加")
     @PostMapping("/add")
-    public RestResult add(@RequestBody Type type){
+    public RestResult add(@RequestBody Type type){//增加
         Type flag = ts.getById(type.getTypeId());
         if (flag==null){
             ts.save(type);
@@ -42,7 +42,7 @@ public class TypeController {
     @DeleteMapping("{typeName}")
     public RestResult delete(
             @ApiParam(name = "typename",value = "帖子类型名称",required = true)
-            @PathVariable String typeName){
+            @PathVariable String typeName){//通过
         int typeId = ts.findByTypeName(typeName);
         boolean flag = ts.removeById(typeId);
         if (flag){
@@ -58,7 +58,7 @@ public class TypeController {
             @ApiParam(name = "typeid",value = "帖子类型ID",required = true)
             @PathVariable int typeId,
             @ApiParam(name = "typename",value = "帖子类型名称",required = true)
-            @PathVariable String typeName) {
+            @PathVariable String typeName) {//通过
         boolean flag = ts.updateById(new Type(typeId, typeName));
         if (flag) {
             return RestResult.ok();
@@ -71,7 +71,7 @@ public class TypeController {
     @GetMapping("/getByTypeName/{typeName}")
     public RestResult getByTypeName(
             @ApiParam(name = "typename",value = "类型的名称",required = true)
-            @PathVariable String typeName){
+            @PathVariable String typeName){//通过
         Type type = ts.findOneByTypeName(typeName);
         if (type!=null){
             return RestResult.ok().data("type",type);
