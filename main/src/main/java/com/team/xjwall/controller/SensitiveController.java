@@ -32,7 +32,7 @@ public class SensitiveController {
 
     @ApiOperation(value = "敏感词的增加")
     @PostMapping("/add")
-    public RestResult add(@RequestBody Sensitive sensitive){
+    public RestResult add(@RequestBody Sensitive sensitive){//有错
         Sensitive flag = ss.getById(sensitive.getWordId());
         if (flag==null){
             ss.save(sensitive);
@@ -46,7 +46,7 @@ public class SensitiveController {
     @DeleteMapping("{word}")
     public RestResult delete(
             @ApiParam(name = "word",value = "敏感词",required = true)
-            @PathVariable String word){
+            @PathVariable String word){//有错
         Sensitive sensitive = ss.findOneByWord(word);
         boolean flag = ss.removeById(sensitive.getWordId());
         if (flag){
@@ -62,7 +62,7 @@ public class SensitiveController {
             @ApiParam(name = "wordid",value = "敏感词ID",required = true)
             @PathVariable int wordId,
             @ApiParam(name = "word",value = "敏感词",required = true)
-            @PathVariable String word) {
+            @PathVariable String word) {//有错
         boolean flag = ss.updateById(new Sensitive(wordId, word));
         if (flag) {
             return RestResult.ok();
@@ -75,7 +75,7 @@ public class SensitiveController {
     @GetMapping("/getByWord/{word}")
     public RestResult getByWord(
             @ApiParam(name = "word",value = "敏感词",required = true)
-            @PathVariable String word){
+            @PathVariable String word){//你干嘛
         Sensitive sensitive = ss.findOneByWord(word);
         if (sensitive!=null){
             return RestResult.ok().data("sensitive",sensitive);

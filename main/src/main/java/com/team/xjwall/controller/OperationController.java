@@ -25,7 +25,7 @@ public class OperationController {
 
     @ApiOperation(value = "操作的增加")
     @PostMapping("/add")
-    public RestResult add(@RequestBody Operation operation){
+    public RestResult add(@RequestBody Operation operation){ //通过
         Operation flag = ops.getById(operation.getOperationId());
         if (flag==null){
             ops.save(operation);
@@ -39,9 +39,9 @@ public class OperationController {
     @DeleteMapping("{operationName}")
     public RestResult delete(
             @ApiParam(name = "operationName",value = "操作名",required = true)
-            @PathVariable String operationName){
+            @PathVariable String operationName){//通过
         Operation operation = ops.findOneByName(operationName);
-        boolean flag = ops.removeById(operation.getOperationName());
+        boolean flag = ops.removeById(operation.getOperationId());
         if (flag){
             return RestResult.ok();
         }else {
@@ -55,7 +55,7 @@ public class OperationController {
             @ApiParam(name = "operationId",value = "操作ID",required = true)
             @PathVariable int operationId,
             @ApiParam(name = "operationName",value = "操作名",required = true)
-            @PathVariable String operationName) {
+            @PathVariable String operationName) {//通过
         boolean flag = ops.updateById(new Operation(operationId, operationName));
         if (flag) {
             return RestResult.ok();
@@ -67,8 +67,8 @@ public class OperationController {
     @ApiOperation("操作的查询")
     @GetMapping("/getByOperationName/{operationName}")
     public RestResult getByWord(
-            @ApiParam(name = "operationName",value = "角色名",required = true)
-            @PathVariable String operationName){
+            @ApiParam(name = "operationName",value = "操作名",required = true)
+            @PathVariable String operationName){//通过
         Operation operation = ops.findOneByName(operationName);
         if (operation!=null){
             return RestResult.ok().data("operation",operation);
@@ -79,7 +79,7 @@ public class OperationController {
 
     @ApiOperation(value = "操作的分页查询")
     @PostMapping("/page/{current}/{limit}")
-    public RestResult getPage(
+    public RestResult getPage(//通过
             @ApiParam(name = "current", value = "当前页", required = true)
             @PathVariable int current,
             @ApiParam(name = "limit", value = "每页的记录数", required = true)
