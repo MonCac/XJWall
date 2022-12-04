@@ -61,4 +61,6 @@ public interface UserService extends IService<User> {
     RestResult findUserPage(int current, int limit, User user);
 
     List<Post> showPosts(User user);
+
+    RestResult update(User user);
 }

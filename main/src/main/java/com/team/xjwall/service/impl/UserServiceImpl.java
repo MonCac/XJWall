@@ -3,7 +3,6 @@ package com.team.xjwall.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.team.xjwall.config.result.RestResult;
-import com.team.xjwall.model.Operation;
 import com.team.xjwall.model.Post;
 import com.team.xjwall.model.User;
 import com.team.xjwall.mapper.UserMapper;
@@ -53,7 +52,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User findByUserName(String userName) {
         QueryWrapper<User> wrapper =new QueryWrapper<>();
-        wrapper.eq("user_id", userName);
+        wrapper.eq("user_name", userName);
         return baseMapper.selectOne(wrapper);
     }
 
@@ -62,9 +61,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Page<User> page = new Page<>(current,limit);
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(user.getUserId())){
-            wrapper.like("word_id",user.getUserId());
+            wrapper.like("user_id",user.getUserId());
         }else if (!StringUtils.isEmpty(user.getUserName())){
-            wrapper.like("word",user.getUserName());
+            wrapper.like("user",user.getUserName());
         }
         baseMapper.selectPage(page,wrapper);
         List<User> list = page.getRecords();
@@ -82,5 +81,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return postList;
     }
         return null;
+    }
+
+    @Override
+    public RestResult update(User user) {
+        QueryWrapper<User> wrapper=new QueryWrapper<>();
+        wrapper.eq("exp",user.getUserName());
+        if(1==1){
+            return RestResult.update();
+        }
+        return RestResult.ok();
     }
 }

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
     private static String thisUserName;
-    String regex = "^[a-z0-9A-Z]+$";//正则表达式，确保只有字母和数字
+    String regex = "^[a-z0-9A-Z]+$";
 
     @Autowired
     private UserService userservice;
@@ -78,10 +78,10 @@ public class UserController {
         }
     }
 
-    //用户查找，初步的想法是做一个可视化的搜索结果，然后点击头像可以访问主页，具体逻辑还没有想好
+    //用户查找，初步的想法是做一个可视化的搜索结果，然后点击头像可以访问主页
     @ApiOperation("用户的查找") //返回的是User类型，还没有想好应该怎么处理
     @GetMapping("/find/{username}")
-    public RestResult getByWord(
+    public RestResult getByName(
             @ApiParam(name = "username",value = "用户账号",required = true)
             @PathVariable String username){
         User user = userservice.findByUserName(username);
@@ -91,6 +91,16 @@ public class UserController {
             return RestResult.error();
         }
     }
+
+    @ApiOperation("查找用户ID")
+    @GetMapping("/findId/{username}")
+    public RestResult getIdByName(
+            @ApiParam(name = "username",value = "用户账号",required = true)
+            @PathVariable String username){
+        int user = userservice.findUserIdByUserName(username);
+        return RestResult.ok().data("user",user);
+    }
+
 }
 
 

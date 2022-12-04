@@ -114,8 +114,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         wrapper.eq("post_id",postid);
         Post post=baseMapper.selectOne(wrapper);
         int collections=post.getCollections();
-        if(flag)collections+=1;
-        else collections-=1;
+        if(flag) {
+            collections+=1;
+        } else {
+            collections-=1;
+        }
         UpdateWrapper<Post> wrapper1=new UpdateWrapper<>();
         wrapper1.eq("post_id",postid).set("collections",collections);
         baseMapper.update(new Post(),wrapper1);
