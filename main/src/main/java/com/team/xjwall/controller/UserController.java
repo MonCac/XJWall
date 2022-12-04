@@ -3,7 +3,6 @@ package com.team.xjwall.controller;
 
 import com.team.xjwall.config.result.RestResult;
 import com.team.xjwall.model.Post;
-import com.team.xjwall.model.Sensitive;
 import com.team.xjwall.model.User;
 import com.team.xjwall.service.UserService;
 import io.swagger.annotations.ApiOperation;
