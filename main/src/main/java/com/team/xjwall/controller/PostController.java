@@ -141,10 +141,14 @@ public class PostController {
     @PathVariable int postid) {
         List<UserPost> upList=ups.findByPostId(postid);
         List<Integer> idList=new ArrayList<>();
-        for(UserPost userPost:upList) {
-            idList.add(userPost.getId());
+        boolean flag1=true;
+
+        if(!upList.isEmpty()){
+            for(UserPost userPost:upList) {
+                idList.add(userPost.getId());
+            }
+            flag1=ups.removeByIds(idList);
         }
-        boolean flag1=ups.removeByIds(idList);
         boolean flag2=ps.removeById(postid);
         if(flag1&&flag2) return RestResult.ok();
         return RestResult.error();
@@ -211,7 +215,7 @@ public class PostController {
         }
         return RestResult.error();
     }
-
+ 
     @ApiOperation(value = "用户浏览帖子")
     @PostMapping("/view/{postid}/{userid}")
     public RestResult getCollection(@ApiParam(name = "postid", value = "帖子id", required = true)

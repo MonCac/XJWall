@@ -31,7 +31,7 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
             if(up.getIslike()==null)like=1;
             else like=Math.abs(up.getIslike()-1);
             wrapper1.eq("post_id",postid).eq("user_id",userid).set("islike",like);
-            baseMapper.update(null,wrapper1);
+            baseMapper.update(up,wrapper1);
             if(like==1)return true;
         }else{
             UserPost up1=new UserPost();
@@ -56,7 +56,7 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
             if(up.getIscollected()==null)collection=1;
             else collection=Math.abs(up.getIscollected()-1);
             wrapper1.eq("post_id",postid).eq("user_id",userid).set("iscollected",collection);
-            baseMapper.update(null,wrapper1);
+            baseMapper.update(up,wrapper1);
             if(collection==1)return true;
         }else{
             UserPost up1=new UserPost();
@@ -76,7 +76,7 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
             UpdateWrapper<UserPost> wrapper1=new UpdateWrapper<>();
             if(up.getIsviewed()==1)return false;
             wrapper1.eq("post_id",postid).eq("user_id",userid).set("isviewed",1);
-            baseMapper.update(null,wrapper1);
+            baseMapper.update(up,wrapper1);
         }else{
             UserPost up1=new UserPost();
             up1.setPostId(postid);
@@ -94,7 +94,7 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
             UpdateWrapper<UserPost> wrapper1=new UpdateWrapper<>();
             if(up.getIsreported()==1)return false;
             wrapper1.eq("post_id",postid).eq("user_id",userid).set("isreported",1);
-            baseMapper.update(null,wrapper1);
+            baseMapper.update(up,wrapper1);
             return true;
         }else{
             UserPost up1=new UserPost();

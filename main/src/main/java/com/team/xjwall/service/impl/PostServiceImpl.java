@@ -36,11 +36,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         switch(sortid){
             //时间降序
             case 1:
-                wrapper.orderByDesc("creat_time");
+                wrapper.orderByDesc("create_time");
                 break;
             //时间升序
             case 2:
-                wrapper.orderByAsc("creat_time");
+                wrapper.orderByAsc("create_time");
                 break;
             //帖子id降序
             case 3:
@@ -104,7 +104,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         else likes-=1;
         UpdateWrapper<Post> wrapper1=new UpdateWrapper<>();
         wrapper1.eq("post_id",postid).set("likes",likes);
-        baseMapper.update(null,wrapper1);
+        baseMapper.update(new Post(),wrapper1);
 
     }
 
@@ -118,7 +118,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         else collections-=1;
         UpdateWrapper<Post> wrapper1=new UpdateWrapper<>();
         wrapper1.eq("post_id",postid).set("collections",collections);
-        baseMapper.update(null,wrapper1);
+        baseMapper.update(new Post(),wrapper1);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         views+=1;
         UpdateWrapper<Post> wrapper1=new UpdateWrapper<>();
         wrapper1.eq("post_id",postid).set("views",views);
-        baseMapper.update(null,wrapper1);
+        baseMapper.update(new Post(),wrapper1);
     }
 
 
@@ -147,7 +147,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         } else {
             temp=findByxxx("father_post",""+postid,2);
         }
-        if(!temp.isEmpty()) {
+        if(temp.isEmpty()) {
             return;
         } else {
             map.put(postid,temp);
