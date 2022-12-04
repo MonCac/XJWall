@@ -51,7 +51,7 @@ public class OperationServiceImpl extends ServiceImpl<OperationMapper, Operation
     @Override
     public Operation findOneByName(String operationName) {
         QueryWrapper<Operation> wrapper = new QueryWrapper<>();
-        wrapper.eq("opeartion_name",operationName);
+        wrapper.eq("operation_name",operationName);
         return baseMapper.selectOne(wrapper);
     }
 

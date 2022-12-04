@@ -63,4 +63,12 @@ public class RestResult {
         return this;
     }
 
+    public static RestResult update(){
+        RestResult restResult = new RestResult();
+        restResult.setSuccess(true);
+        restResult.setCode(ResultCode.SUCCESS);
+        restResult.setMessage("升级成功");
+        return restResult;
+    }
+
 }

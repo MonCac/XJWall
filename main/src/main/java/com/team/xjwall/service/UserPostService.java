@@ -25,7 +25,7 @@ public interface UserPostService extends IService<UserPost> {
     //返回被举报的帖子-用户关系
     List<UserPost> findReported();
     //返回被收藏的帖子-用户关系
-    List<UserPost> findCollected();
+    List<UserPost> findCollected(int userid);
     //通过帖子id查找帖子-用户关系
     List<UserPost> findByPostId(int postid);
 }

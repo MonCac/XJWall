@@ -3,10 +3,10 @@ package com.team.xjwall.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.team.xjwall.config.result.RestResult;
+import com.team.xjwall.mapper.SensitiveSMapper;
 import com.team.xjwall.model.Post;
-import com.team.xjwall.model.Sensitive;
-import com.team.xjwall.mapper.SensitiveMapper;
-import com.team.xjwall.service.SensitiveService;
+import com.team.xjwall.model.SensitiveS;
+import com.team.xjwall.service.SensitiveSService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -24,58 +24,58 @@ import java.util.Map;
  * @since 2022-11-03
  */
 @Service
-public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, Sensitive> implements SensitiveService {
+public class SensitiveSServiceImpl extends ServiceImpl<SensitiveSMapper, SensitiveS> implements SensitiveSService {
 
     @Override
-    public int addSensitive(String word, int wordId) {
-        QueryWrapper<Sensitive> wrapper = new QueryWrapper<>();
+    public int addSensitiveS(String word, int wordId) {
+        QueryWrapper<SensitiveS> wrapper = new QueryWrapper<>();
         wrapper.eq("word_id",wordId);
-        Sensitive sensitive = baseMapper.selectOne(wrapper);
+        SensitiveS sensitive = baseMapper.selectOne(wrapper);
         //id是非必须的，那如果之前已经存在了的id，不进行覆盖。
         if (sensitive!=null){
             return 0;
         }else {
-            Sensitive newSensitive = new Sensitive(wordId,word);
-            return baseMapper.insert(newSensitive);
+            SensitiveS newSensitiveS = new SensitiveS(wordId,word);
+            return baseMapper.insert(newSensitiveS);
         }
     }
 
     @Override
-    public int delSensitive(String word) {
-        QueryWrapper<Sensitive> wrapper = new QueryWrapper<>();
+    public int delSensitiveS(String word) {
+        QueryWrapper<SensitiveS> wrapper = new QueryWrapper<>();
         //选出指定类型名称的帖子类型
         wrapper.eq("word",word);
         return baseMapper.delete(wrapper);
     }
 
     @Override
-    public int updateSensitive(String word, int wordId) {
-        Sensitive sensitive = new Sensitive();
-        sensitive.setWordId(wordId);
-        sensitive.setWord(word);
-        return baseMapper.updateById(sensitive);
+    public int updateSensitiveS(String word, int wordId) {
+        SensitiveS sensitiveS = new SensitiveS();
+        sensitiveS.setWordId(wordId);
+        sensitiveS.setWord(word);
+        return baseMapper.updateById(sensitiveS);
     }
 
 
     @Override
-    public Sensitive findOneByWord(String word) {
-        QueryWrapper<Sensitive> wrapper = new QueryWrapper<>();
+    public SensitiveS findOneByWord(String word) {
+        QueryWrapper<SensitiveS> wrapper = new QueryWrapper<>();
         wrapper.eq("word",word);
         return baseMapper.selectOne(wrapper);
     }
 
 
     @Override
-    public RestResult findSensitivePage(int current, int limit, Sensitive sensitive) {
-        Page<Sensitive> page = new Page<>(current,limit);
-        QueryWrapper<Sensitive> wrapper = new QueryWrapper<>();
+    public RestResult findSensitiveSPage(int current, int limit, SensitiveS sensitive) {
+        Page<SensitiveS> page = new Page<>(current,limit);
+        QueryWrapper<SensitiveS> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(sensitive.getWordId())){
             wrapper.like("word_id",sensitive.getWordId());
         }else if (!StringUtils.isEmpty(sensitive.getWord())){
             wrapper.like("word",sensitive.getWord());
         }
         baseMapper.selectPage(page,wrapper);
-        List<Sensitive> list = page.getRecords();
+        List<SensitiveS> list = page.getRecords();
         long total = page.getTotal();
         long pages = page.getPages();
         return RestResult.ok().data("rows",list).data("total",total).
@@ -83,11 +83,12 @@ public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, Sensitive
     }
 
     @Override
-    public int findSensitiveProportion(String postContent) {
+    public int findSensitiveSProportion(String post) {
         //拿到所有的敏感词元组[Sensitive(word_id=?, word=?)]
-        List<Sensitive> sensitives = baseMapper.selectList(null);
+        List<SensitiveS> sensitives = baseMapper.selectList(null);
         //用来存放每个敏感词在内容中所占的字数
         int[] counts = new int[sensitives.size()];
+        String postContent=post;
         int sensitiveSum=0;
         //帖子的初始长度
         int originalLength;
@@ -105,7 +106,7 @@ public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, Sensitive
             sensitiveSum+=counts[i];
         }
         //返回的是一个百分比
-        return sensitiveSum*100/postContent.length();
+        return sensitiveSum*100/post.length();
     }
 
 
@@ -114,7 +115,7 @@ public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, Sensitive
         //键是postId，值是敏感百分比
         Map<Integer, Integer> map = new HashMap<>(posts.size());
         for (Post post : posts) {
-            int sensitiveProportion = findSensitiveProportion(post.getContent());
+            int sensitiveProportion = findSensitiveSProportion(post.getContent());
             map.put(post.getPostId(),sensitiveProportion);
         }
         return map;

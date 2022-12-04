@@ -36,11 +36,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         switch(sortid){
             //时间降序
             case 1:
-                wrapper.orderByDesc("creat_time");
+                wrapper.orderByDesc("create_time");
                 break;
             //时间升序
             case 2:
-                wrapper.orderByAsc("creat_time");
+                wrapper.orderByAsc("create_time");
                 break;
             //帖子id降序
             case 3:
@@ -65,7 +65,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             default:
                 break;
         }
-        if("post_id".equals(type)){
+        if("keyword".equals(type)){
+            //简单的模糊搜索
+            wrapper.like("content","%"+value).or().like("content",value+"%").or().like("content","%"+value+"%").or().like("title","%"+value).or().like("title",value+"%").or().like("content","%"+value+"%");
+        }
+        else if("post_id".equals(type)){
             wrapper.eq("post_id",Integer.parseInt(value));
         }
         else if("owner_id".equals(type)){
@@ -96,11 +100,14 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         wrapper.eq("post_id",postid);
         Post post=baseMapper.selectOne(wrapper);
         int likes=post.getLikes();
-        if(flag)likes+=1;
-        else likes-=1;
+        if(flag) {
+            likes+=1;
+        } else {
+            likes-=1;
+        }
         UpdateWrapper<Post> wrapper1=new UpdateWrapper<>();
         wrapper1.eq("post_id",postid).set("likes",likes);
-        baseMapper.update(null,wrapper1);
+        baseMapper.update(new Post(),wrapper1);
 
     }
 
@@ -110,11 +117,14 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         wrapper.eq("post_id",postid);
         Post post=baseMapper.selectOne(wrapper);
         int collections=post.getCollections();
-        if(flag)collections+=1;
-        else collections-=1;
+        if(flag) {
+            collections+=1;
+        } else {
+            collections-=1;
+        }
         UpdateWrapper<Post> wrapper1=new UpdateWrapper<>();
         wrapper1.eq("post_id",postid).set("collections",collections);
-        baseMapper.update(null,wrapper1);
+        baseMapper.update(new Post(),wrapper1);
     }
 
     @Override
@@ -126,7 +136,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         views+=1;
         UpdateWrapper<Post> wrapper1=new UpdateWrapper<>();
         wrapper1.eq("post_id",postid).set("views",views);
-        baseMapper.update(null,wrapper1);
+        baseMapper.update(new Post(),wrapper1);
     }
 
 
@@ -143,7 +153,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         } else {
             temp=findByxxx("father_post",""+postid,2);
         }
-        if(!temp.isEmpty()) {
+        if(temp.isEmpty()) {
             return;
         } else {
             map.put(postid,temp);
@@ -159,9 +169,15 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         QueryWrapper<Post> wrapper=new QueryWrapper<>();
         wrapper.eq("post_id",postid);
         Post post=baseMapper.selectOne(wrapper);
-        if(s.equals("likes")) return post.getLikes();
-        if(s.equals("collections")) return post.getCollections();
-        if(s.equals("views")) return post.getViews();
+        if(s.equals("likes")) {
+            return post.getLikes();
+        }
+        if(s.equals("collections")) {
+            return post.getCollections();
+        }
+        if(s.equals("views")) {
+            return post.getViews();
+        }
         return -1;
     }
 }

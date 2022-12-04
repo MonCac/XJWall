@@ -119,7 +119,8 @@ CREATE TABLE `role_permission_relation` (
 -- Table structure for sensitive
 -- ----------------------------
 DROP TABLE IF EXISTS `sensitive`;
-CREATE TABLE `sensitive` (
+DROP TABLE IF EXISTS `sensitive_s`;
+CREATE TABLE `sensitive_s` (
   `word_id` int(255) NOT NULL AUTO_INCREMENT COMMENT '敏感词id',
   `word` varchar(255) NOT NULL COMMENT '敏感词',
   PRIMARY KEY (`word_id`)
@@ -128,9 +129,9 @@ CREATE TABLE `sensitive` (
 -- ----------------------------
 -- Records of sensitive
 -- ----------------------------
-INSERT INTO `sensitive` VALUES ('1', '只因');
-INSERT INTO `sensitive` VALUES ('2', '你干嘛');
-INSERT INTO `sensitive` VALUES ('3', '唱跳rap');
+INSERT INTO `sensitive_s` VALUES ('1', '只因');
+INSERT INTO `sensitive_s` VALUES ('2', '你干嘛');
+INSERT INTO `sensitive_s` VALUES ('3', '唱跳rap');
 
 -- ----------------------------
 -- Table structure for type

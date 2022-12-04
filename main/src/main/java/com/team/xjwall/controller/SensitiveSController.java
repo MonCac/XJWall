@@ -3,8 +3,10 @@ package com.team.xjwall.controller;
 
 import com.team.xjwall.config.result.RestResult;
 import com.team.xjwall.model.Post;
-import com.team.xjwall.model.Sensitive;
-import com.team.xjwall.service.SensitiveService;
+import com.team.xjwall.model.SensitiveS;
+import com.team.xjwall.model.SensitiveS;
+import com.team.xjwall.service.SensitiveSService;
+import com.team.xjwall.service.SensitiveSService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +28,16 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sensitive")
-public class SensitiveController {
+public class SensitiveSController {
     @Autowired
-    private SensitiveService ss;
+    private SensitiveSService ss;
 
     @ApiOperation(value = "敏感词的增加")
     @PostMapping("/add")
-    public RestResult add(@RequestBody Sensitive sensitive){
-        Sensitive flag = ss.getById(sensitive.getWordId());
+    public RestResult add(@RequestBody SensitiveS sensitiveS){
+        SensitiveS flag = ss.getById(sensitiveS.getWordId());
         if (flag==null){
-            ss.save(sensitive);
+            ss.save(sensitiveS);
             return RestResult.ok();
         }else {
             return RestResult.error();
@@ -47,8 +49,8 @@ public class SensitiveController {
     public RestResult delete(
             @ApiParam(name = "word",value = "敏感词",required = true)
             @PathVariable String word){
-        Sensitive sensitive = ss.findOneByWord(word);
-        boolean flag = ss.removeById(sensitive.getWordId());
+        SensitiveS sensitiveS = ss.findOneByWord(word);
+        boolean flag = ss.removeById(sensitiveS.getWordId());
         if (flag){
             return RestResult.ok();
         }else {
@@ -63,7 +65,7 @@ public class SensitiveController {
             @PathVariable int wordId,
             @ApiParam(name = "word",value = "敏感词",required = true)
             @PathVariable String word) {
-        boolean flag = ss.updateById(new Sensitive(wordId, word));
+        boolean flag = ss.updateById(new SensitiveS(wordId, word));
         if (flag) {
             return RestResult.ok();
         } else {
@@ -76,9 +78,9 @@ public class SensitiveController {
     public RestResult getByWord(
             @ApiParam(name = "word",value = "敏感词",required = true)
             @PathVariable String word){
-        Sensitive sensitive = ss.findOneByWord(word);
-        if (sensitive!=null){
-            return RestResult.ok().data("sensitive",sensitive);
+        SensitiveS sensitiveS = ss.findOneByWord(word);
+        if (sensitiveS!=null){
+            return RestResult.ok().data("sensitive",sensitiveS);
         }else {
             return RestResult.error();
         }
@@ -91,8 +93,8 @@ public class SensitiveController {
             @PathVariable int current,
             @ApiParam(name = "limit", value = "每页的记录数", required = true)
             @PathVariable int limit,
-            @RequestBody(required = false) Sensitive sensitive){
-        return ss.findSensitivePage(current, limit, sensitive);
+            @RequestBody(required = false) SensitiveS sensitiveS){
+        return ss.findSensitiveSPage(current, limit, sensitiveS);
     }
 
     @ApiOperation(value = "帖子内容的敏感词汇占比")
@@ -100,16 +102,16 @@ public class SensitiveController {
     public RestResult getProportion(
             @ApiParam(name = "content", value = "帖子内容概述", required = true)
             @PathVariable String content){
-        int sensitiveProportion = ss.findSensitiveProportion(content);
-        if (sensitiveProportion>=0){
-            return RestResult.ok().data("sensitiveProportion",sensitiveProportion);
+        int sensitiveSProportion = ss.findSensitiveSProportion(content);
+        if (sensitiveSProportion>=0){
+            return RestResult.ok().data("sensitiveProportion",sensitiveSProportion);
         }else {
             return RestResult.error();
         }
     }
 
     @ApiOperation(value = "所有帖子内容的敏感词汇占比")
-    @PostMapping("/Proportion/{posts}")
+    @PostMapping("/Proportion/All/{posts}")
     public RestResult getAllProportion(
             @ApiParam(name = "posts", value = "所有帖子", required = true)
             @PathVariable List<Post> posts){

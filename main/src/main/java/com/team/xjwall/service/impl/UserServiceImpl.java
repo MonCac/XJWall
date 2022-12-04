@@ -35,7 +35,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public int delUser(String userName) {
-        return 0;
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("operation_name",userName);
+        return baseMapper.delete(wrapper);
     }
 
 
@@ -43,25 +45,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public int findUserIdByUserName(String userName) {
         QueryWrapper<User> wrapper =new QueryWrapper<>();
-        wrapper.eq("user_id", userName);
+        wrapper.eq("user_name", userName);
         return baseMapper.selectOne(wrapper).getUserId();
     }
 
     @Override
     public User findByUserName(String userName) {
         QueryWrapper<User> wrapper =new QueryWrapper<>();
-        wrapper.eq("user_id", userName);
+        wrapper.eq("user_name", userName);
         return baseMapper.selectOne(wrapper);
     }
 
     @Override
-    public RestResult findSensitivePage(int current, int limit, User user) {
+    public RestResult findUserPage(int current, int limit, User user) {
         Page<User> page = new Page<>(current,limit);
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(user.getUserId())){
-            wrapper.like("word_id",user.getUserId());
+            wrapper.like("user_id",user.getUserId());
         }else if (!StringUtils.isEmpty(user.getUserName())){
-            wrapper.like("word",user.getUserName());
+            wrapper.like("user",user.getUserName());
         }
         baseMapper.selectPage(page,wrapper);
         List<User> list = page.getRecords();
@@ -72,12 +74,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public List<Post> showPosts(User user){
+    public List<Post> showPosts(int userId){
         PostService ps=new PostServiceImpl();
-        List<Post> postList=ps.findByxxx("post_id",""+user.getUserId(),1);
+        List<Post> postList=ps.findByxxx("owner_id",""+userId,1);
         if (!postList.isEmpty()) {
             return postList;
     }
         return null;
+    }
+
+    @Override
+    public RestResult update(User user) {
+        QueryWrapper<User> wrapper=new QueryWrapper<>();
+        wrapper.eq("exp",user.getUserName());
+        if(1==1){
+            return RestResult.update();
+        }
+        return RestResult.ok();
     }
 }
