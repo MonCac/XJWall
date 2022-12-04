@@ -3,6 +3,7 @@ package com.team.xjwall.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.team.xjwall.config.result.RestResult;
+import com.team.xjwall.model.Operation;
 import com.team.xjwall.model.Post;
 import com.team.xjwall.model.User;
 import com.team.xjwall.mapper.UserMapper;
@@ -35,7 +36,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public int delUser(String userName) {
-        return 0;
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("operation_name",userName);
+        return baseMapper.delete(wrapper);
     }
 
 
@@ -55,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public RestResult findSensitivePage(int current, int limit, User user) {
+    public RestResult findUserPage(int current, int limit, User user) {
         Page<User> page = new Page<>(current,limit);
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(user.getUserId())){
