@@ -2,6 +2,7 @@ package com.team.xjwall.controller;
 
 
 import com.team.xjwall.config.result.RestResult;
+import com.team.xjwall.model.Post;
 import com.team.xjwall.model.Sensitive;
 import com.team.xjwall.model.User;
 import com.team.xjwall.service.UserService;
@@ -9,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -99,6 +102,16 @@ public class UserController {
             @PathVariable String username){
         int user = userservice.findUserIdByUserName(username);
         return RestResult.ok().data("user",user);
+    }
+
+    @ApiOperation("查看用户帖子")
+    @GetMapping("/findPosts/{username}")
+    public RestResult getPost(
+            @ApiParam(name = "username",value = "用户账号",required = true)
+            @PathVariable String username){
+        int userId = userservice.findUserIdByUserName(username);
+        List<Post> posts=userservice.showPosts(userId);
+        return RestResult.ok().data("posts",posts);
     }
 
 }

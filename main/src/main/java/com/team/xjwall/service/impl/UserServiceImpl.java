@@ -74,9 +74,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public List<Post> showPosts(User user){
+    public List<Post> showPosts(int userId){
         PostService ps=new PostServiceImpl();
-        List<Post> postList=ps.findByxxx("post_id",""+user.getUserId(),1);
+        List<Post> postList=ps.findByxxx("owner_id",""+userId,1);
         if (!postList.isEmpty()) {
             return postList;
     }
